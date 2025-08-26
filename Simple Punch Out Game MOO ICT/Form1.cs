@@ -28,6 +28,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         {
             InitializeComponent();
             ResetGame();
+            this.DoubleBuffered = true;
 
             //Inicializa o timer para cooldown dos ataques
             cooldownTimer = new System.Windows.Forms.Timer();
