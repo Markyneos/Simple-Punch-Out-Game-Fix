@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices.Marshalling;
+Ôªøusing System.Runtime.InteropServices.Marshalling;
 
 namespace Simple_Punch_Out_Game_MOO_ICT
 {
@@ -14,13 +14,17 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         int enemyHealth = 100;
         List<string> enemyAttack = new List<string> { "left", "right", "block"};
 
-        //Adicionar vari·veis para consertar bugs
+        //Adicionar vari√°veis para consertar bugs
         private bool onCooldown = false;
         private readonly System.Windows.Forms.Timer cooldownTimer;
-        private bool leftPressed = false; //Trata para se a tecla esquerda est· pressionada
-        private bool rightPressed = false; //Trata para se a tecla direita est· pressionada
+        private bool leftPressed = false; //Trata para se a tecla esquerda est√° pressionada
+        private bool rightPressed = false; //Trata para se a tecla direita est√° pressionada
         private bool enemyOnCooldown = false;
         private readonly System.Windows.Forms.Timer enemyCooldownTimer;
+
+        //Vari√°vel da funcionalidade nova
+        private int playerSpeed = 10; //Quantos pixels o jogador se move
+        private int socos = 0;
 
 
 
@@ -61,7 +65,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                 switch (enemyAttack[index])
                 {
                     case "left":
-                        boxer.Image = Properties.Resources.enemy_punch1;
+                        boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_punch1 : Properties.Resources.enemy_punch1;
                         enemyBlock = false;
 
                         if (!playerBlock)
@@ -72,7 +76,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         enemyCooldownTimer.Start();
                         break;
                     case "right":
-                        boxer.Image = Properties.Resources.enemy_punch2;
+                        boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_punch2 : Properties.Resources.enemy_punch2;
                         enemyBlock = false;
 
                         if (!playerBlock)
@@ -83,7 +87,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         enemyCooldownTimer.Start();
                         break;
                     case "block":
-                        boxer.Image = Properties.Resources.enemy_block;
+                        boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_block : Properties.Resources.enemy_block;
                         enemyBlock = true;
                         break;
                 }
@@ -107,7 +111,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
 
             if (!boxer.Bounds.IntersectsWith(player.Bounds))
             {
-                boxer.Image = Properties.Resources.enemy_stand;
+                boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_stand : Properties.Resources.enemy_stand;
             }
 
             boxer.Left += enemySpeed;
@@ -127,7 +131,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             {
                 BoxerAttackTimer.Stop();
                 BoxerMoveTimer.Stop();
-                MessageBox.Show("You Win, Click OK to Play Again", "Moo Says: ");
+                MessageBox.Show($"You Win with {socos} punches, Click OK to Play Again", "Moo Says: ");
                 ResetGame();
             }
             if (playerHealth < 1)
@@ -137,44 +141,59 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                 MessageBox.Show("Tough Rob Wins, Click OK to Play Again", "Moo Says: ");
                 ResetGame();
             }
-
-
         }
 
-        //Ataques quando as teclas s„o pressionadas
+        //Ataques quando as teclas s√£o pressionadas
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
-            if (onCooldown) return; //N„o ataca se o CoolDown estiver ativo
+            if (onCooldown) return; //N√£o ataca se o CoolDown estiver ativo
 
-            if (e.KeyCode == Keys.Left && !leftPressed) //Lado Esquerdo: Adapta para o jogador n„o poder 'spammar' ataques
+            if (e.KeyCode == Keys.Left && !leftPressed) //Lado Esquerdo: Adapta para o jogador n√£o poder 'spammar' ataques
             {
                 leftPressed = true;
                 DoAttack("left");
+                socos++;
             }
-            else if (e.KeyCode == Keys.Right && !rightPressed) //Lado Direito: Adapta para o jogador n„o poder 'spammar' ataques
+            else if (e.KeyCode == Keys.Right && !rightPressed) //Lado Direito: Adapta para o jogador n√£o poder 'spammar' ataques
 
             {
                 rightPressed = true;
                 DoAttack("right");
+                socos++;
             }
             else if (e.KeyCode == Keys.Down) //Defesa para os ataques inimigos
             {
-                player.Image = Properties.Resources.boxer_block;
+                player.Image = playerHealth <= 50 ? Properties.Resources.boxer_hurt_block : Properties.Resources.boxer_block;
                 playerBlock = true;
+            }
+
+            if (e.KeyCode == Keys.A) //Move o personagem pra esquerda
+            {
+                if (player.Left > 0)
+                {
+                    player.Left -= playerSpeed;
+                }
+            }
+            else if (e.KeyCode == Keys.D) //Move o personagem pra direita
+            {
+                if (player.Right < this.ClientSize.Width)
+                {
+                    player.Left += playerSpeed;
+                }
             }
         }
 
-        //Tratamento para quando nenhuma tecla È pressionada (o jogador n„o ataca)
+        //Tratamento para quando nenhuma tecla √© pressionada (o jogador n√£o ataca)
         private void KeyIsUp(object sender, KeyEventArgs e) 
         {
             if (e.KeyCode == Keys.Left) leftPressed = false;
             if (e.KeyCode == Keys.Right) rightPressed = false;
 
-            player.Image = Properties.Resources.boxer_stand;
+            player.Image = playerHealth <= 50 ? Properties.Resources.boxer_hurt_stand : Properties.Resources.boxer_stand;
             playerBlock = false;
         }
 
-        //MÈtodo para os ataques
+        //M√©todo para os ataques
         private void DoAttack(string side)
         {
             if (onCooldown) return;
@@ -183,9 +202,9 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             cooldownTimer.Start();
 
             if (side == "left")
-                player.Image = Properties.Resources.boxer_left_punch;
+                player.Image = playerHealth <= 50 ? Properties.Resources.boxer_hurt_left_punch : Properties.Resources.boxer_left_punch;
             else
-                player.Image = Properties.Resources.boxer_right_punch;
+                player.Image = playerHealth <= 50 ? Properties.Resources.boxer_hurt_right_punch : Properties.Resources.boxer_right_punch;
             playerBlock = false;
 
             if (player.Bounds.IntersectsWith(boxer.Bounds) && !enemyBlock)
@@ -194,14 +213,14 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             }
         }
 
-        //Reseta o jogo quando alguÈm ganha (funÁ„o j· existente/adaptada)
+        //Reseta o jogo quando algu√©m ganha (fun√ß√£o j√° existente/adaptada)
         private void ResetGame()
         {
             BoxerAttackTimer.Start();
             BoxerMoveTimer.Start();
             playerHealth = 100;
             enemyHealth = 100;
-            player.Image = Properties.Resources.boxer_stand; //Reseta o jogador para a posiÁ„o inicial (pose)
+            player.Image = Properties.Resources.boxer_stand; //Reseta o jogador para a posi√ß√£o inicial (pose)
 
             boxer.Left = 400;
         }

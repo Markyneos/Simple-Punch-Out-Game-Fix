@@ -124,6 +124,21 @@
   <data name="boxer-block" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boxer-block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="boxer-hurt-block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boxer-hurt-block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boxer-hurt-left-punch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boxer-hurt-left-punch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boxer-hurt-right-punch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boxer-hurt-right-punch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boxer-hurt-stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boxer-hurt-stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="boxer-hurt-stand2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boxer-hurt-stand2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="boxer-left-punch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boxer-left-punch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -135,6 +150,18 @@
   </data>
   <data name="enemy-block" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\enemy-block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enemy-hurt-block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enemy-hurt-block.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enemy-hurt-punch1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enemy-hurt-punch1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enemy-hurt-punch2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enemy-hurt-punch2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="enemy-hurt-stand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\enemy-hurt-stand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="enemy-punch1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\enemy-punch1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
