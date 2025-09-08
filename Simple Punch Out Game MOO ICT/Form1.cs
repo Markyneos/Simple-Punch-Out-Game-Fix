@@ -25,6 +25,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         //Variável da funcionalidade nova
         private int playerSpeed = 10; //Quantos pixels o jogador se move
         private int socos = 0;
+        private int socosInimigo = 0;
 
 
 
@@ -54,7 +55,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         }
 
         //Trata os ataques do inimigo
-        private void BoxerAttackTImerEvent(object sender, EventArgs e)
+        private void BoxerAttackTimerEvent(object sender, EventArgs e)
         {
             if (enemyOnCooldown) return;
 
@@ -74,6 +75,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         }
                         enemyOnCooldown = true;
                         enemyCooldownTimer.Start();
+                        socosInimigo++;
                         break;
                     case "right":
                         boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_punch2 : Properties.Resources.enemy_punch2;
@@ -85,6 +87,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         }
                         enemyOnCooldown = true;
                         enemyCooldownTimer.Start();
+                        socosInimigo++;
                         break;
                     case "block":
                         boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_block : Properties.Resources.enemy_block;
@@ -138,7 +141,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             {
                 BoxerAttackTimer.Stop();
                 BoxerMoveTimer.Stop();
-                MessageBox.Show("Tough Rob Wins, Click OK to Play Again", "Moo Says: ");
+                MessageBox.Show($"Tough Rob Wins with {socosInimigo} punches, Click OK to Play Again", "Moo Says: ");
                 ResetGame();
             }
         }

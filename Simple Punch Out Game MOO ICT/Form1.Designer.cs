@@ -79,7 +79,7 @@
             // 
             BoxerAttackTimer.Enabled = true;
             BoxerAttackTimer.Interval = 500;
-            BoxerAttackTimer.Tick += BoxerAttackTImerEvent;
+            BoxerAttackTimer.Tick += BoxerAttackTimerEvent;
             // 
             // BoxerMoveTimer
             // 
