@@ -35,6 +35,8 @@
             boxer = new PictureBox();
             BoxerAttackTimer = new System.Windows.Forms.Timer(components);
             BoxerMoveTimer = new System.Windows.Forms.Timer(components);
+            playerPunches = new Label();
+            enemyPunches = new Label();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             ((System.ComponentModel.ISupportInitialize)boxer).BeginInit();
             SuspendLayout();
@@ -87,6 +89,30 @@
             BoxerMoveTimer.Interval = 20;
             BoxerMoveTimer.Tick += BoxerMoveTimerEvent;
             // 
+            // playerPunches
+            // 
+            playerPunches.AutoSize = true;
+            playerPunches.BackColor = Color.Transparent;
+            playerPunches.Font = new Font("Verdana", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            playerPunches.ForeColor = SystemColors.ButtonFace;
+            playerPunches.Location = new Point(533, 69);
+            playerPunches.Name = "playerPunches";
+            playerPunches.Size = new Size(161, 29);
+            playerPunches.TabIndex = 3;
+            playerPunches.Text = "Punches: 0";
+            // 
+            // enemyPunches
+            // 
+            enemyPunches.AutoSize = true;
+            enemyPunches.BackColor = Color.Transparent;
+            enemyPunches.Font = new Font("Verdana", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            enemyPunches.ForeColor = SystemColors.ButtonFace;
+            enemyPunches.Location = new Point(47, 69);
+            enemyPunches.Name = "enemyPunches";
+            enemyPunches.Size = new Size(161, 29);
+            enemyPunches.TabIndex = 4;
+            enemyPunches.Text = "Punches: 0";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -94,6 +120,8 @@
             BackgroundImage = Properties.Resources.background;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(734, 561);
+            Controls.Add(enemyPunches);
+            Controls.Add(playerPunches);
             Controls.Add(player);
             Controls.Add(playerHealthBar);
             Controls.Add(boxerHealthBar);
@@ -118,5 +146,7 @@
         private PictureBox boxer;
         private System.Windows.Forms.Timer BoxerAttackTimer;
         private System.Windows.Forms.Timer BoxerMoveTimer;
+        private Label playerPunches;
+        private Label enemyPunches;
     }
 }

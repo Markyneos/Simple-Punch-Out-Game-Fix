@@ -27,6 +27,13 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         private int socos = 0;
         private int socosInimigo = 0;
 
+        //Componentes para o menu (botões e painel)
+        private bool onPause = false; //Trata se o jogo está em pausa
+        private Panel pauseMenu = new Panel();
+        private Button continueButton = new Button();
+        private Button restartButton = new Button();
+        private Button exitButton = new Button();
+
 
 
         public Form1()
@@ -34,6 +41,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             InitializeComponent();
             ResetGame();
             this.DoubleBuffered = true;
+            SetupPauseMenu();
 
             //Inicializa o timer para cooldown dos ataques
             cooldownTimer = new System.Windows.Forms.Timer();
@@ -54,10 +62,39 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             };
         }
 
+        private void SetupPauseMenu()
+        {
+            pauseMenu.Size = this.ClientSize;
+            pauseMenu.BackColor = Color.FromArgb(150, 0, 0, 0);
+            pauseMenu.Visible = false;
+
+            continueButton.Text = "Resume";
+            continueButton.Size = new Size(120, 40);
+            continueButton.Location = new Point(ClientSize.Width / 2 - 60, 150);
+            continueButton.Click += (s, e) => { pauseMenu.Visible = false; onPause = false; this.Focus(); };
+
+            restartButton.Text = "Reset";
+            restartButton.Size = new Size(120, 40);
+            restartButton.Location = new Point(ClientSize.Width / 2 - 60, 200);
+            restartButton.Click += (s, e) => { ResetGame(); pauseMenu.Visible = false; onPause = false; this.Focus(); };
+
+            exitButton.Text = "Exit";
+            exitButton.Size = new Size(120, 40);
+            exitButton.Location = new Point(ClientSize.Width / 2 - 60, 250);
+            exitButton.Click += (s, e) => { Application.Exit(); };
+
+            pauseMenu.Controls.Add(continueButton);
+            pauseMenu.Controls.Add(restartButton);
+            pauseMenu.Controls.Add(exitButton);
+
+            this.Controls.Add(pauseMenu);
+            pauseMenu.BringToFront();
+        }
+
         //Trata os ataques do inimigo
         private void BoxerAttackTimerEvent(object sender, EventArgs e)
         {
-            if (enemyOnCooldown) return;
+            if (enemyOnCooldown || onPause) return;
 
             index = random.Next(0, enemyAttack.Count);
 
@@ -76,6 +113,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         enemyOnCooldown = true;
                         enemyCooldownTimer.Start();
                         socosInimigo++;
+                        enemyPunches.Text = $"Punches: {socosInimigo}";
                         break;
                     case "right":
                         boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_punch2 : Properties.Resources.enemy_punch2;
@@ -88,6 +126,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                         enemyOnCooldown = true;
                         enemyCooldownTimer.Start();
                         socosInimigo++;
+                        enemyPunches.Text = $"Punches: {socosInimigo}";
                         break;
                     case "block":
                         boxer.Image = enemyHealth <= 50 ? Properties.Resources.enemy_hurt_block : Properties.Resources.enemy_block;
@@ -99,6 +138,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
 
         private void BoxerMoveTimerEvent(object sender, EventArgs e)
         {
+            if (onPause) { return; }
             // set up both health bars
             if (playerHealth > 1)
             {
@@ -149,13 +189,14 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         //Ataques quando as teclas são pressionadas
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
-            if (onCooldown) return; //Não ataca se o CoolDown estiver ativo
+            if (onCooldown || onPause) return; //Não ataca se o CoolDown ou o menu de pausa estiverem ativos.
 
             if (e.KeyCode == Keys.Left && !leftPressed) //Lado Esquerdo: Adapta para o jogador não poder 'spammar' ataques
             {
                 leftPressed = true;
                 DoAttack("left");
                 socos++;
+                playerPunches.Text = $"Punches: {socos}";
             }
             else if (e.KeyCode == Keys.Right && !rightPressed) //Lado Direito: Adapta para o jogador não poder 'spammar' ataques
 
@@ -163,6 +204,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                 rightPressed = true;
                 DoAttack("right");
                 socos++;
+                playerPunches.Text = $"Punches: {socos}";
             }
             else if (e.KeyCode == Keys.Down) //Defesa para os ataques inimigos
             {
@@ -184,6 +226,12 @@ namespace Simple_Punch_Out_Game_MOO_ICT
                     player.Left += playerSpeed;
                 }
             }
+
+            if (e.KeyCode == Keys.Escape && !pauseMenu.Visible)
+            {
+                pauseMenu.Visible = true;
+                onPause = true;
+            }
         }
 
         //Tratamento para quando nenhuma tecla é pressionada (o jogador não ataca)
@@ -199,7 +247,7 @@ namespace Simple_Punch_Out_Game_MOO_ICT
         //Método para os ataques
         private void DoAttack(string side)
         {
-            if (onCooldown) return;
+            if (onCooldown || onPause) return;
 
             onCooldown = true;
             cooldownTimer.Start();
@@ -223,7 +271,10 @@ namespace Simple_Punch_Out_Game_MOO_ICT
             BoxerMoveTimer.Start();
             playerHealth = 100;
             enemyHealth = 100;
+            socos = 0;
+            socosInimigo = 0;
             player.Image = Properties.Resources.boxer_stand; //Reseta o jogador para a posição inicial (pose)
+            player.Location = new Point(348, 407);
 
             boxer.Left = 400;
         }
